@@ -61,9 +61,8 @@ if __name__ == "__main__":
     while True:
         r, img = cap.read()
         img = cv2.resize(img, (500, 500))
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        boxes, scores, classes, num = odapi.processFrame(gray)
+        boxes, scores, classes, num = odapi.processFrame(img)
 
         # Visualization of the results of a detection.
 
