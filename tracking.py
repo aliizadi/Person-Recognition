@@ -3,7 +3,6 @@ import tensorflow as tf
 import cv2  
 import time
 
-
 class DetectorAPI:
     def __init__(self, path_to_ckpt):
         self.path_to_ckpt = path_to_ckpt
@@ -58,12 +57,17 @@ if __name__ == "__main__":
     threshold = 0.7
     cap = cv2.VideoCapture('video/video.mp4')
 
+    ii = 0
+
+    out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (500,500))
+
     while True:
+        ii += 1
+        print(ii)
         r, img = cap.read()
         img = cv2.resize(img, (500, 500))
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        boxes, scores, classes, num = odapi.processFrame(gray)
+        boxes, scores, classes, num = odapi.processFrame(img)
 
         # Visualization of the results of a detection.
 
@@ -72,7 +76,13 @@ if __name__ == "__main__":
             if classes[i] == 1 and scores[i] > threshold:
                 box = boxes[i]
                 cv2.rectangle(img, (box[1], box[0]), (box[3], box[2]), (255, 0, 0), 2)
-
+        out.write(img)
+        
+        if ii==250:
+            out.release()
+            cap.release()
+            cv2.destroyAllWindows()
+            break
         cv2.imshow("preview", img)
         key = cv2.waitKey(1)
         if key & 0xFF == ord('q'):
