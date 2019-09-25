@@ -1,0 +1,84 @@
+<div class="card bg-success text-white">
+  <div class="card-body">Person Tracker:</div>
+</div>
+
+<br>
+<div class='row'>
+</div>
+<div class='row'>
+  <div class='col-md-3'>
+      <div class="card-deck">
+          <div class="card">
+            <div class="card-body">
+              <br><br>
+              <form>
+                <div class="form-group">
+                  <label>First Name:</label>
+                  <input type="text" class="form-control" id="fname" name="firstname">
+                </div>
+                <div class="form-group">
+                  <label>Last Name:</label>
+                  <input type="text" class="form-control" id="lname" name="lastname">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">find</button>
+              </form>
+              <br><br><br>
+            </div>
+          </div>
+      </div>
+      <hr><hr>
+      <div class="card-deck">
+          <div class="card">
+            <div class="card-body">
+              <br><br>
+                <div class="form-group">
+                    <label>Day:</label>
+                    <select class="form-control">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
+                    <br>
+                    <label>Month:</label>
+                    <select class="form-control">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
+                    <br>
+                    <label>Year:</label>
+                    <select class="form-control">
+                      <option>1398</option>
+                      <option>1397</option>
+                      <option>1396</option>
+                      <option>1396</option>
+                      <button type="submit" class="btn btn-primary btn-block">find</button>
+                    </select>
+                </div>
+              <br><br><br><br><br>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class='col-md-8'>  
+    <table mdbTable hover="true" bordered="true" >
+      <thead>
+        <tr>
+          <th *ngFor="let head of headElements" scope="col">{{head}} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr mdbTableCol *ngFor="let el of elements">
+          <th scope="row">{{el.id}}</th>
+          <td>{{el.first}}</td>
+          <td>{{el.last}}</td>
+          <td>{{el.time}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class='col-md-1' style="background-color: white;"></div>  
+  
+</div>

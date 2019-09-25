@@ -1,0 +1,54 @@
+<div class="card bg-success text-white">
+  <div class="card-body">Register to use Attendance Tracker System:</div>
+</div>
+<br>
+
+<div class="card">
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+            <label>username: </label>
+            <input type="text" formControlName="username" class="form-control"/>
+            <!-- <div *ngIf="f.username.errors">
+                <div *ngIf="f.username.errors.required" class="text-danger"> username is required</div>
+            </div> -->
+        </div>
+  
+        <div class="form-group">
+            <label>firstname: </label>
+            <input type="text" formControlName="firstName" class="form-control"/>
+            <!-- <div *ngIf="f.firstName.errors">
+                <div *ngIf="f.firstName.errors.required" class="text-danger"> firstname is required</div>
+            </div> -->
+        </div>
+  
+        <div class="form-group">
+            <label>lastname: </label>
+            <input type="text" formControlName="lastName" class="form-control"/>
+            <!-- <div *ngIf="f.lastName.errors">
+                <div *ngIf="f.lastName.errors.required" class="text-danger"> lastname is required</div>
+            </div> -->
+        </div>
+
+        <div class="form-group">
+            <label>password: </label>
+            <input type="password" formControlName="password" class="form-control"/>
+            <!-- <div *ngIf="f.password.errors">
+                <div *ngIf="f.password.errors.required" class="text-danger"> password is required</div>
+            </div> -->
+        </div>
+         
+       <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+                <button class="btn btn-primary">Sign Up</button>
+            </div>
+          </div>
+       </div>
+      </form>
+  
+      <!-- <div *ngIf="isSigned">
+          <div class="text-danger">{{message}}</div>
+      </div> -->
+    </div>
+  </div>
