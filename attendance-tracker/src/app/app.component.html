@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-primary" [containerInside]="false">
+    <mdb-navbar-brand>
+        <a class="logo navbar-brand" routerLink="/home"><strong>فردیاب</strong></a>
+    </mdb-navbar-brand>
+    <links>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link" routerLink="/home">خانه<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link" routerLink="/persons">افراد</a>
+            </li>
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link" routerLink="/tracks">ترددها</a>
+            </li>
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link" routerLink="/cameras">دوربین‌ها</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link"><mdb-icon fab icon="facebook-f"></mdb-icon></a>
+            </li>
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link"><mdb-icon fab icon="twitter"></mdb-icon></a>
+            </li>
+            <li class="nav-item waves-light" mdbWavesEffect>
+                <a class="nav-link"><mdb-icon fab icon="instagram"></mdb-icon></a>
+            </li>
+        </ul>
+    </links>
+  </mdb-navbar>
+  <!-- Main -->
+
+  <div class="row">
+    <div class="col-md-10 main-gradient">
+    <router-outlet></router-outlet>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    </div>
+    
+    <div class="col-md-2">
+        <nav class="nav sidebar-gradient flex-column grey lighten-4 py-4 font-weight-bold h-100">
+            <hr>
+            <a class="nav-link text-right text-white" style="font-size:25px;" routerLink="/home">خانه&emsp;<i class="material-icons">home</i></a>
+            <hr>
+            <a class="nav-link text-right text-white" style="font-size:25px;" routerLink="/persons">افراد&emsp;<i class="material-icons">person</i></a>
+            <hr>
+            <a class="nav-link text-right text-white" style="font-size:25px;" routerLink="/tracks">ترددها&emsp;<i class="material-icons">directions_walk</i></a>
+            <hr>
+            <a class="nav-link text-right text-white" style="font-size:25px;" routerLink="/cameras">دوربین‌ها&emsp;<i class="material-icons">camera_alt</i></a>
+        </nav>
+    </div>
+  
+  </div>
+  <!-- /.Main -->
+  <!-- Footer -->
+  <footer class="page-footer font-small blue pt-4">
+  
+    <div class="container-fluid text-center text-md-left">
+      <div class="row">
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <div class="col-md-12">
+          <h5 class="text-uppercase font-weight-bold text-center">فردیاب</h5>
+          <p class="text-center"> سامانه بازشناسي و ثبت تردد افراد در ويدئوهاي دوربين هاي مدار بسته</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+      <a href="https://mdbootstrap.com/education/angular/">fardyab.ir</a>
+    </div>
+  </footer>

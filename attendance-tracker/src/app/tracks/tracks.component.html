@@ -1,0 +1,75 @@
+<br>
+<!-- <b><p class="text-right">:لیست ترددها را در این‌جا مشاهده می‌کنید</p></b> -->
+
+<div>
+  <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" style="text-align:right;" placeholder="جست و جو کنید">
+</div>
+<br>
+<table mdbTable striped="true" class="table text-right">
+    <thead>
+      <tr>
+        <th *ngFor="let head of headElements" scope="col" class="text-right"><b>{{head}}</b></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr mdbTableCol *ngFor="let track of tracks.tracks | filter:searchText | paginate: { id: 'foo', itemsPerPage: pageSize, currentPage: currentPage}">
+        <td class="text-right">{{track.person.firstName}} {{track.person.lastName}}</td>
+        <td class="text-right">{{track.date}}</td>
+        <td class="text-right">{{track.time}}</td>
+        <td class="text-right">{{track.kind}}</td>
+        <td class="text-right">{{track.camera.name}}</td>
+        <div class="text-right">
+            <button type="button" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.show()" mdbWavesEffect>مشاهده و ویرایش</button>
+            <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title w-100 text-right" id="myModalLabel">مشاهده و ویرایش</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="card">
+                      <div class="card-body">
+                        <!-- <mdb-card class="my-1"> -->
+                          <img [src]="IMAGE_URL.concat(track.image.concat('.png'))" style="width: 200px; height: 200px;" alt="Card image cap">
+                        <!-- </mdb-card> -->
+                        <br>
+                        <br>
+
+                        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit(track)">
+          
+                          <div class="form-group text-right">
+                              <label>:فرد</label>
+                              <select formControlName="person" class="text-right">
+                                <!-- <option [ngValue]="null" disabled>فرد را انتخاب کنید</option> -->
+                                <option *ngFor="let person of persons.persons" [ngValue]="person">
+                                 {{person.firstName}} {{person.lastName}} {{person.id}} 
+                                </option>
+                              </select> 
+                              <div *ngIf="f.person.errors">
+                                  <div *ngIf="f.person.errors.required" class="text-danger text-right">یک فرد را انتخاب کنید</div>
+                              </div>
+                          </div>
+                  
+                          <div class="form-group">
+                              <button [disabled]="!signUpForm.valid" type="submit" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.hide()" mdbWavesEffect>ذخیره</button>
+                              <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>بستن</button>
+          
+                          </div>
+                      
+                        </form>
+                    
+                        <div *ngIf="isSigned">
+                            <div class="text-danger">{{message}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </tr>
+    </tbody>
+</table>
+<br>
+<pagination-controls (pageChange)="currentPage = $event" id="foo" previousLabel='قبلی' nextLabel='بعدی'></pagination-controls>
