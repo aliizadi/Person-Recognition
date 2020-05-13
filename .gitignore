@@ -1,3 +1,15 @@
+
+attendance-tracker/dist
+attendance-tracker/tmp
+attendance-tracker/out-tsc
+
+# dependencies
+attendance-tracker/node_modules
+
+# static files
+person-recognition/static
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
