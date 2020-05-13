@@ -1,0 +1,169 @@
+<br>
+<div class="row">
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4">
+    <mdb-card>
+        <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+          <a>
+            <div class="mask"></div>
+          </a>
+        </div>
+        <mdb-card-body>
+          <img src="{{IMAGE_URL.concat(cards[0].img.concat('.png'))}}" style="width: 200px; height: 200px;" class="pull-right" alt=""> 
+          <br>
+          <br>
+          <hr>
+          <mdb-card-title class="text-right">
+            <h4>{{person.firstName}} {{person.lastName}}</h4>
+          </mdb-card-title>
+          <mdb-card-text class="text-right">تاریخ تولد: {{person.age}}
+          </mdb-card-text>
+          <mdb-card-text class="text-right">قد: {{person.height}}
+          </mdb-card-text>
+          <mdb-card-text class="text-right">توضیحات: {{person.description}}
+          </mdb-card-text>
+        </mdb-card-body>
+      </mdb-card>
+      <br>
+    </div>
+</div>
+
+<div class="row justify-content-end" >
+<br>
+<button type="button" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.show()" mdbWavesEffect>ویرایش فرد</button>
+  <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title w-100 text-right" id="myModalLabel">ویرایش فرد</h4>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-body">
+              <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-group text-right">
+                    <label>نام</label>
+                    <input type="text" formControlName="firstName" class="form-control text-right"/>
+                    <div *ngIf="f.firstName.errors">
+                        <div *ngIf="f.firstName.errors.required" class="text-danger text-right">نام را وارد کنید</div>
+                    </div>
+                </div>
+
+                <div class="form-group text-right">
+                    <label>نام خانوادگی</label>
+                    <input type="text" formControlName="lastName" class="form-control text-right"/>
+                    <div *ngIf="f.lastName.errors">
+                        <div *ngIf="f.lastName.errors.required" class="text-danger text-right">نام خانوادگی را وارد کنید</div>
+                    </div>
+                </div>
+
+                <div class="form-group text-right">
+                    <label>سن</label>
+                    <input type="text" formControlName="age" class="form-control text-right"/>
+                      <div *ngIf="f.age.errors">
+                        <div *ngIf="f.age.errors.pattern" class="text-danger text-right">سن را به عدد انگلیسی وارد کنید</div> 
+                      </div>
+                </div>
+
+                <div class="form-group text-right">
+                    <label>قد</label>
+                    <input type="text" formControlName="height" class="form-control text-right"/>
+                      <div *ngIf="f.height.errors">
+                        <div *ngIf="f.height.errors.pattern" class="text-danger">قد را به صورت عدد انگلیسی وارد کنید</div> 
+                      </div>
+                </div>
+
+
+                <div class="form-group text-right">
+                    <label>توضیحات</label>
+                    <input type="text" formControlName="description"  class="form-control text-right"/>
+                </div>
+        
+                <div class="form-group">
+                    <button [disabled]="!signUpForm.valid" type="submit" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.hide()" mdbWavesEffect>ذخیره</button>
+                    <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>بستن</button>
+
+                </div>
+                  
+              </form>
+          
+              <div *ngIf="isSigned">
+                  <div class="text-danger">{{message}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+<div class="row justify-content-end" >
+<form [formGroup]="deleteForm" (ngSubmit)="onDelete()">
+  <div class="form-group">
+      <button [disabled]="!deleteForm.valid" type="submit" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;حذف &nbsp;&nbsp;&nbsp;&nbsp;</button>
+  </div>
+</form>
+</div>
+
+<br>
+<b><p class="text-right">ترددها</p></b>
+
+<div>
+  <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" style="text-align:right;" placeholder="جست و جو کنید">
+</div>
+<br>
+<table mdbTable striped="true" class="table text-right">
+    <thead>
+      <tr>
+        <th *ngFor="let head of headElements" scope="col" class="text-right"><b>{{head}}</b></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr mdbTableCol *ngFor="let track of tracks.tracks | filter:searchText">
+        <td class="text-right">{{track.person.firstName}} {{track.person.lastName}}</td>
+        <td class="text-right">{{track.date}}</td>
+        <td class="text-right">{{track.time}}</td>
+        <td class="text-right">{{track.kind}}</td>
+        <td class="text-right">{{track.camera.name}}</td>
+        <div class="text-right">
+          <a href="#" mdbBtn color="primary"  mdbWavesEffect>مشاهده</a>
+        </div>
+      </tr>
+    </tbody>
+</table>
+<br>
+
+<hr>
+<hr>
+
+
+<b><p class="text-right">آلبوم عکس</p></b>
+
+
+<!-- <button mat-raised-button (click)="uploadFile()" class="btn btn-primary btn-lg center">ذخیره تصویر</button>
+<input #fileInput name="file" type="file" (change)="handleFileInput($event.target.files)">
+<br>
+<br> -->
+<br>
+
+<mdb-carousel [isControls]="true" class="carousel-multi-item multi-animation text-center" [type]="'carousel-multi-item'"
+              [animation]="'slide'">
+  <br>
+  <mdb-carousel-item *ngFor="let item of slides; let i = index">
+    <div class="col-md-1" [ngClass]="{'d-none d-md-block': cardIndex !== 0}"
+         *ngFor="let card of item; let cardIndex = index">
+      <!-- <mdb-card class="my-1"> -->
+        <img [src]="IMAGE_URL.concat(card.img.concat('.png'))" style="width: 100px; height: 100px;" alt="Card image cap">
+      <!-- </mdb-card> -->
+    </div>
+  </mdb-carousel-item>
+</mdb-carousel>
+
+<!-- <button type="button" (click)="goBack()" class="btn btn-primary btn-lg center">بازگشت</button> -->
+
+
+
+

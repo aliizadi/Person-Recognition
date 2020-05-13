@@ -1,0 +1,34 @@
+.sidebar-gradient {
+    background-color: #734ae8;
+    background-image: linear-gradient(315deg, #6a3093 0%, #a044ff 74%);
+}
+
+.main-gradient {
+    background-color: #ffcfdf;
+    background-image: linear-gradient(315deg, #ffcfdf 0%, #b0f3f1 74%);
+}
+
+/* @font-face {
+    font-family: "BBCNassim-WOFF";
+    font-weight: normal;
+    font-style: normal;
+    src: url("http://www.bbc.co.uk/worldservice/fonts/persian/nassim/bbc-nassim-regular.woff") format("woff");
+} */
+
+* {
+    font-family: Sahel;
+    src: url('../assets/sahel-font-v3.3.0/Sahel.eot');
+    src: url('../assets/sahel-font-v3.3.0/Sahel.eot?#iefix') format('embedded-opentype'),
+         url('../assets/sahel-font-v3.3.0/Sahel.woff2') format('woff2'),
+         url('../assets/sahel-font-v3.3.0/Sahel.woff') format('woff'),
+         url('../assets/sahel-font-v3.3.0/Sahel.ttf') format('truetype');
+    font-weight: normal;
+}
+
+.row{
+    display: flex;
+}
+
+html, body {
+    height:100%;
+}
