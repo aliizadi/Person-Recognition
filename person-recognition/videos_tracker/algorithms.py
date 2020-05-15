@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import euclidean_distances
 
 def encode_face(frame):
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    boxes = face_recognition.face_locations(rgb, model='hog')
+    boxes = face_recognition.face_locations(rgb, model='cnn')
     encodings = face_recognition.face_encodings(rgb, boxes)
     return [(box, enc) for (box, enc) in zip(boxes, encodings)]
 
@@ -26,10 +26,11 @@ def find_unique_faces(encodings):
 
         centers_indices = []
         for m, label_id in enumerate(label_ids):
-            idxs = np.where(clt.labels_ == label_id)[0]
-            i = idxs[centers_indices_of_each_cluster[m]]
-            centers_indices.append(i)
-        
+            if label_id != -1:
+                idxs = np.where(clt.labels_ == label_id)[0]
+                i = idxs[centers_indices_of_each_cluster[m]]
+                centers_indices.append(i)
+            
         return centers_indices
         
     centers_indices = find_centers(encodings)
@@ -41,7 +42,7 @@ def recognize_faces(known_persons_encodings, unknown_persons_encodings):
     if known_persons_encodings:
         found_persons = []
         for unknown_person_encoding in unknown_persons_encodings:
-            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding)
+            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.4)
             if True in matches:
                 first_match_index = matches.index(True)
                 found_persons.append(first_match_index)
