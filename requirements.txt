@@ -12,7 +12,7 @@ Jinja2==2.11.2
 joblib==0.14.1
 kiwisolver==1.1.0
 MarkupSafe==1.1.1
-matplotlib==3.2.1
+matplotlib==3.1.2
 numpy==1.18.2
 opencv-contrib-python==4.2.0.32
 pandas==1.0.3
