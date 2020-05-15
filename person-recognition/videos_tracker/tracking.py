@@ -1,8 +1,12 @@
-import cv2
-import numpy as np
 import threading
-from videos_tracker.algorithms import encode_face, find_unique_faces, recognize_faces
+import time
+
+import cv2
 import jdatetime
+import numpy as np
+from imutils import paths
+from videos_tracker.algorithms import (encode_face, find_unique_faces,
+                                       recognize_faces)
 
 
 NUMBER_OF_FRAMES_MOTION_FINISHED = 50
@@ -34,7 +38,8 @@ class Stream(threading.Thread):
     def run(self):
 
         # cap = cv2.VideoCapture(f'http://{self.ip}:{self.port}/video')
-        cap = cv2.VideoCapture(0)
+        # cap = cv2.VideoCapture(0)
+        cap = Simulation()
 
         def time_out(x):
             start = 0 
@@ -42,7 +47,7 @@ class Stream(threading.Thread):
                 _, frame = cap.read()
                 start += 1
         
-        time_out(10)    
+        time_out(0)    
 
         _, frame = cap.read()
         last_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
@@ -52,8 +57,12 @@ class Stream(threading.Thread):
         motion_detected = False
 
         while True:
-            print('capturing frame', motion_finished, motion_detected)
+            print('capturing frame', motion_finished, motion_detected, cap.index)
             _, frame = cap.read()
+
+            cv2.imshow('frame', frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
             jalali_datetime = jdatetime.datetime.now()
             date = jalali_datetime.strftime("%a, %d %b %Y")
@@ -63,12 +72,18 @@ class Stream(threading.Thread):
             current_image = cv2.GaussianBlur(current_image, (21, 21), 0) 
 
             diff_frame = cv2.absdiff(last_image, current_image) 
-            thresh_frame = cv2.threshold(diff_frame, 30, 255, cv2.THRESH_BINARY)[1]
+            thresh_frame = cv2.threshold(diff_frame, 70, 255, cv2.THRESH_BINARY)[1]
 
-            last_image = current_image 
+            last_image = current_image
 
-            if motion_finished > NUMBER_OF_FRAMES_MOTION_FINISHED and motion_detected:
+            if (motion_finished > NUMBER_OF_FRAMES_MOTION_FINISHED and motion_detected):
+
                 motion_detected = False
+                motion_finished = 0
+
+                if not self.face_encodings:
+                    continue
+
                 print('start_encoding')
                 known_persons_encodings = self.db.get_encodings()
 
@@ -79,6 +94,9 @@ class Stream(threading.Thread):
                 found_persons = recognize_faces([encoding['encoding'] for encoding in known_persons_encodings], unknown_persons_encodings)
 
                 self.__add_track(found_persons, unknown_persons_encodings, unknown_persons_faces, known_persons_encodings, date, time)
+
+                self.face_encodings = []
+                self.frames = []
 
             # if there is no difference between current and last frame: skip
             if np.any(thresh_frame):
@@ -92,11 +110,7 @@ class Stream(threading.Thread):
                 motion_finished += 1
                 continue
 
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        cap.release()
+        # cap.release()
         cv2.destroyAllWindows()
 
     def __add_track(self, found_persons, unknown_persons_encodings, unknown_persons_faces, known_persons_encodings, date, time):
@@ -126,3 +140,16 @@ class Stream(threading.Thread):
         print('trying to save image')
         cv2.imwrite(f'static/images/{image_id}.png', frame)
         print('image saved')
+
+
+class Simulation:
+    def __init__(self):
+        self.image_paths = sorted(list(paths.list_images('/home/Person-Recognition/person-recognition/static/dataset/P1L_S1_C1.1')))
+        print(len(self.image_paths))
+        self.index = 0 
+
+    def read(self):
+        frame = cv2.imread(self.image_paths[self.index])
+        self.index += 1
+        time.sleep(0.05)
+        return None, frame
