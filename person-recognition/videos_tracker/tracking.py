@@ -60,9 +60,9 @@ class Stream(threading.Thread):
             print('capturing frame', motion_finished, motion_detected, cap.index)
             _, frame = cap.read()
 
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            # cv2.imshow('frame', frame)
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
 
             jalali_datetime = jdatetime.datetime.now()
             date = jalali_datetime.strftime("%a, %d %b %Y")
