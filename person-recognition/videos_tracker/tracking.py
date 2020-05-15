@@ -144,7 +144,7 @@ class Stream(threading.Thread):
 
 class Simulation:
     def __init__(self):
-        self.image_paths = sorted(list(paths.list_images('/home/Person-Recognition/person-recognition/static/dataset/P2L_S1_C3.1')))
+        self.image_paths = sorted(list(paths.list_images('/home/Person-Recognition/person-recognition/static/dataset/P2E_S1_C3.1')))
         print(len(self.image_paths))
         self.index = 0 
 
