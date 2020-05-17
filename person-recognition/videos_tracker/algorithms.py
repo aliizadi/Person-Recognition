@@ -13,7 +13,7 @@ def encode_face(frame):
 
 
 def find_unique_faces(encodings):
-    clt = DBSCAN(metric="euclidean", n_jobs=-1, eps=0.4)
+    clt = DBSCAN(metric="euclidean", n_jobs=-1, eps=0.45)
     clt.fit(encodings)
     label_ids = np.unique(clt.labels_)
     number_of_unique_faces = len(np.where(label_ids > -1)[0])
@@ -42,7 +42,7 @@ def recognize_faces(known_persons_encodings, unknown_persons_encodings):
     if known_persons_encodings:
         found_persons = []
         for unknown_person_encoding in unknown_persons_encodings:
-            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.5)
+            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.4)
             if True in matches:
                 first_match_index = matches.index(True)
                 found_persons.append(first_match_index)
