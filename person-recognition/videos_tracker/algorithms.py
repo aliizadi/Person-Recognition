@@ -13,7 +13,7 @@ def encode_face(frame):
 
 
 def find_unique_faces(encodings):
-    clt = DBSCAN(metric="euclidean", n_jobs=-1, eps=0.3)
+    clt = DBSCAN(metric="euclidean", n_jobs=-1, eps=0.4)
     clt.fit(encodings)
     label_ids = np.unique(clt.labels_)
     number_of_unique_faces = len(np.where(label_ids > -1)[0])
