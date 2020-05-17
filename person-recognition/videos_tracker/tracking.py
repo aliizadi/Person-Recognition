@@ -55,10 +55,10 @@ class Stream(threading.Thread):
 
         motion_finished = 0
         motion_detected = False
-
-        while True:
+        finished = False
+        while not finished:
             print('capturing frame', motion_finished, motion_detected, cap.index)
-            _, frame = cap.read()
+            finished , frame = cap.read()
 
             # cv2.imshow('frame', frame)
             # if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -76,7 +76,7 @@ class Stream(threading.Thread):
 
             last_image = current_image
 
-            if (motion_finished > NUMBER_OF_FRAMES_MOTION_FINISHED and motion_detected):
+            if (motion_finished > NUMBER_OF_FRAMES_MOTION_FINISHED and motion_detected) or finished:
 
                 motion_detected = False
                 motion_finished = 0
@@ -149,7 +149,11 @@ class Simulation:
         self.index = 0 
 
     def read(self):
-        frame = cv2.imread(self.image_paths[self.index])
-        self.index += 1
-        time.sleep(0.05)
-        return None, frame
+        try:            
+            frame = cv2.imread(self.image_paths[self.index])
+            self.index += 1
+            time.sleep(0.05)
+            return False, frame
+        except:
+            return True, cv2.imread(self.image_paths[0])
+                
