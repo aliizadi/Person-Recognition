@@ -9,7 +9,7 @@ from videos_tracker.algorithms import (encode_face, find_unique_faces,
                                        recognize_faces)
 
 
-NUMBER_OF_FRAMES_MOTION_FINISHED = 10
+NUMBER_OF_FRAMES_MOTION_FINISHED = 50
 
 class Cameras:
     def __init__(self, db):
@@ -72,7 +72,7 @@ class Stream(threading.Thread):
             current_image = cv2.GaussianBlur(current_image, (21, 21), 0) 
 
             diff_frame = cv2.absdiff(last_image, current_image) 
-            thresh_frame = cv2.threshold(diff_frame, 30, 255, cv2.THRESH_BINARY)[1]
+            thresh_frame = cv2.threshold(diff_frame, 70, 255, cv2.THRESH_BINARY)[1]
 
             last_image = current_image
 
