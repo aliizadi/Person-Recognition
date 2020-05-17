@@ -42,7 +42,7 @@ def recognize_faces(known_persons_encodings, unknown_persons_encodings):
     if known_persons_encodings:
         found_persons = []
         for unknown_person_encoding in unknown_persons_encodings:
-            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.4)
+            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.6)
             if True in matches:
                 first_match_index = matches.index(True)
                 found_persons.append(first_match_index)
