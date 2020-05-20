@@ -53,14 +53,14 @@ class CentroidTracker:
 		dates = [face.dates[i] for i in largeset_face_args]
 		times = [face.times[i] for i in largeset_face_args]
 
-		found_person = recognize_faces(known_persons_encodings, known_persons_indices, unknown_person_encodings[0])
+		found_person = recognize_faces(known_persons_encodings, known_persons_indices, unknown_person_encodings[-1])
 
 		self.__add_track(found_person, unknown_person_encodings, unknown_person_faces, known_persons_encodings, known_persons_indices, known_persons_ids, dates, times)
 
 		self.face_encodings = []
 		self.frames = []
 
-	def __get_largest_faces_args(self, face, k=5):
+	def __get_largest_faces_args(self, face, k=10):
 		faces_size = [abs(bottom-top) * abs(right-left) for (left, top, right, bottom) in face.rects]
 		sorted_face_args = np.argsort(faces_size)
 		largeset_face_args = [sorted_face_args[i] for i in range(int(len(sorted_face_args)/2), int(len(sorted_face_args)/2 + k)) ]
@@ -87,9 +87,9 @@ class CentroidTracker:
 		if new_person(found_person):
 			print('new person')
 			encoding_id = self.db.add_encoding(np.array(unknown_person_encodings).tolist(), self.id)
-			track_id = self.db.add_track(encoding_id, self.id, dates[0], times[0])
+			track_id = self.db.add_track(encoding_id, self.id, dates[-1], times[-1])
 			image_id = self.db.add_image(encoding_id, track_id)
-			self.__save_image(unknown_person_faces[0], image_id)
+			self.__save_image(unknown_person_faces[-1], image_id)
 		
 		else:
 			print('old person')
@@ -104,9 +104,9 @@ class CentroidTracker:
 
 
 			self.db.update_encoding(encoding_id, encodings)
-			track_id = self.db.add_track(encoding_id, self.id, dates[0], times[0])
+			track_id = self.db.add_track(encoding_id, self.id, dates[-1], times[-1])
 			image_id = self.db.add_image(encoding_id, track_id)
-			self.__save_image(unknown_person_faces[0], image_id)
+			self.__save_image(unknown_person_faces[-1], image_id)
 
     
 	def __save_image(self, frame, image_id):
