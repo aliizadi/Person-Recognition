@@ -3,11 +3,12 @@ import face_recognition
 import numpy as np 
 from sklearn.cluster import DBSCAN, KMeans
 from sklearn.metrics.pairwise import euclidean_distances
+import dlib
 
 
 def encode_face(frame):
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    boxes = face_recognition.face_locations(rgb, model='cnn')
+    boxes = face_recognition.face_locations(rgb, model='hog')
     encodings = face_recognition.face_encodings(rgb, boxes)
     return [(box, enc) for (box, enc) in zip(boxes, encodings)]
 
@@ -38,18 +39,20 @@ def find_unique_faces(encodings):
     return centers_indices, number_of_unique_faces
 
 
-def recognize_faces(known_persons_encodings, unknown_persons_encodings):
+def recognize_faces(known_persons_encodings, known_persons_indices, unknown_person_encoding):
     if known_persons_encodings:
-        found_persons = []
-        for unknown_person_encoding in unknown_persons_encodings:
-            matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.4)
-            if True in matches:
-                first_match_index = matches.index(True)
-                found_persons.append(first_match_index)
-            
-            else:
-                found_persons.append(-1)
-        
-        return found_persons
+        matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.5)
+        if True in matches:
+            matched_indices = [i for (i, matched) in enumerate(matches) if matched]
+            counts = {}
+
+            for i in matched_indices:
+                index = known_persons_indices[i]
+                counts[index] = counts.get(index, 0) + 1
+
+            index = max(counts, key=counts.get)
+            return index    
+        else:
+            return -1
     else:
-        return [-1 for i in range(len(unknown_persons_encodings))]
+        return -1
