@@ -10,7 +10,7 @@ from imutils import paths
 from videos_tracker.algorithms import encode_face
 from videos_tracker.centroidtracker import CentroidTracker
 
-NUMBER_OF_SKIP_FRAMES_TO_FACE_DETECTION = 5
+NUMBER_OF_SKIP_FRAMES_TO_FACE_DETECTION = 1
 NUMBER_OF_MAX_FRAMES_FACE_DISAPPEARED=30
 MAXIMUM_DISTANCE_BETWEEN_TO_CENTER=50
 
@@ -145,7 +145,7 @@ class Stream(threading.Thread):
 
 class Simulation:
     def __init__(self):
-        self.image_paths = sorted(list(paths.list_images('/home/Person-Recognition/person-recognition/static/dataset/P2E_S1_C3.1')))
+        self.image_paths = sorted(list(paths.list_images('/home/Person-Recognition/person-recognition/static/dataset/P2L_S1_C1.1')))
         print(len(self.image_paths))
         self.index = 0 
 
