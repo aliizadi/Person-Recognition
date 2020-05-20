@@ -60,7 +60,7 @@ class CentroidTracker:
 		self.face_encodings = []
 		self.frames = []
 
-	def __get_largest_faces_args(self, face, k=3):
+	def __get_largest_faces_args(self, face, k=5):
 		faces_size = [abs(bottom-top) * abs(right-left) for (left, top, right, bottom) in face.rects]
 		largeset_face_args = np.argsort(faces_size)[::-1][:k]
 		return largeset_face_args
