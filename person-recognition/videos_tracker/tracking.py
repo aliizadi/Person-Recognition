@@ -1,20 +1,18 @@
 import threading
 import time
 
+import numpy as np
+
 import cv2
 import dlib
 import jdatetime
-import numpy as np
 from imutils import paths
-
 from videos_tracker.algorithms import encode_face
 from videos_tracker.centroidtracker import CentroidTracker
 
 NUMBER_OF_SKIP_FRAMES_TO_FACE_DETECTION = 1
 NUMBER_OF_MAX_FRAMES_FACE_DISAPPEARED=30
 MAXIMUM_DISTANCE_BETWEEN_TO_CENTER=50
-
-
 class Cameras:
     def __init__(self, db):
         self.db = db
@@ -23,12 +21,9 @@ class Cameras:
         for stream in self.streams:
             stream.start()
 
-
     def add(self, camera):
         self.streams.append(Stream(camera, self.db))
         self.streams[-1].start()
-
-
 class Stream(threading.Thread):
     def __init__(self, camera, db):
         threading.Thread.__init__(self)
@@ -45,7 +40,6 @@ class Stream(threading.Thread):
                 _, frame = cap.read()
                 start += 1
 
-
     def run(self):
 
         # cap = cv2.VideoCapture(f'http://{self.ip}:{self.port}/video')
@@ -57,8 +51,6 @@ class Stream(threading.Thread):
 
         _, frame = cap.read()
 
-        
-
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         last_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
@@ -69,7 +61,6 @@ class Stream(threading.Thread):
         frames_num = 0 
         total_frames = 0
 
-        # TODO check what happend to last elements
         while True:
 
             frames_num += 1
@@ -104,14 +95,9 @@ class Stream(threading.Thread):
                 if total_frames % NUMBER_OF_SKIP_FRAMES_TO_FACE_DETECTION == 0:
                     trackers = []
 
-                
                     faces = encode_face(frame)
 
-                    # print('object detector - --------------------------------------------------------', len(faces))
-
-
-                    for face in faces:
-                        
+                    for face in faces:     
                         encoding = face[1]
                         top, right, bottom, left = face[0]
                         
@@ -121,8 +107,6 @@ class Stream(threading.Thread):
                         trackers.append(tracker)
                         rects.append(((left, top, right, bottom), encoding, frame, date, time))
                 else:
-                    # print('tracker', len(trackers))
-
                     for tracker in trackers:
                         tracker.update(rgb)
                         pos = tracker.get_position()
@@ -132,12 +116,9 @@ class Stream(threading.Thread):
                         endY = int(pos.bottom())
                         rects.append(((startX, startY, endX, endY), None , None, None, None))
 
-                
-
                 objects = centroid_tracker.update(rects)
 
             else:
-                # total_frames = 0
                 continue
 
         # cap.release()
