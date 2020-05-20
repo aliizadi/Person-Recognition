@@ -78,9 +78,9 @@ class Stream(threading.Thread):
 
             finished , frame = cap.read()
 
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            # cv2.imshow('frame', frame)
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
 
             jalali_datetime = jdatetime.datetime.now()
             date = jalali_datetime.strftime("%a, %d %b %Y")
@@ -140,8 +140,8 @@ class Stream(threading.Thread):
                 # total_frames = 0
                 continue
 
-        cap.release()
-        cv2.destroyAllWindows()
+        # cap.release()
+        # cv2.destroyAllWindows()
 
 class Simulation:
     def __init__(self):
