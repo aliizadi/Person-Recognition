@@ -62,7 +62,8 @@ class CentroidTracker:
 
 	def __get_largest_faces_args(self, face, k=5):
 		faces_size = [abs(bottom-top) * abs(right-left) for (left, top, right, bottom) in face.rects]
-		largeset_face_args = np.argsort(faces_size)[::-1][:k]
+		sorted_face_args = np.argsort(faces_size)
+		largeset_face_args = [sorted_face_args[i] for i in range(len(sorted_face_args)/2, len(sorted_face_args)/2 + k) ]
 		return largeset_face_args
 
 	def __create_person_encodings(self):
