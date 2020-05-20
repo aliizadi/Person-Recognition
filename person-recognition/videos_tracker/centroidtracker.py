@@ -1,9 +1,9 @@
 from collections import OrderedDict
 
-import cv2
 import numpy as np
 from scipy.spatial import distance as dist
 
+import cv2
 from videos_tracker.algorithms import recognize_faces
 
 
@@ -110,29 +110,23 @@ class CentroidTracker:
 
     
 	def __save_image(self, frame, image_id):
-		# print('trying to save image')
 		cv2.imwrite(f'static/images/{image_id}.png', frame)
 		print('image saved')
 
 
 	def update(self, frames_information):
-		# print('----------------------------', len(self.faces))
 		
 		rects = [frame_information[0] for frame_information in frames_information] 
 		trackable_face = [(frame_information[1], frame_information[2], frame_information[3], frame_information[4], frame_information[0]) for frame_information in frames_information] 
-		# print(rects)
 		if len(rects) == 0:
-			# print('all faces disappeared')
 			self.__all_faces_disappeared()
 			return self.faces
 
 		input_centroids = self.__compute_rects_centers(rects)
 
 		if len(self.faces) == 0:
-			# print('first new faces appeared')
 			self.__first_new_faces_appeared(input_centroids, trackable_face)
 		else:
-			# print('track by centroids')
 			self.__track_by_centroids(input_centroids, trackable_face)
 
 		return self.faces
