@@ -41,7 +41,7 @@ def find_unique_faces(encodings):
 
 def recognize_faces(known_persons_encodings, known_persons_indices, unknown_person_encoding):
     if known_persons_encodings:
-        matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.5)
+        matches = face_recognition.compare_faces(known_persons_encodings, unknown_person_encoding, tolerance=0.4)
         if True in matches:
             matched_indices = [i for (i, matched) in enumerate(matches) if matched]
             counts = {}
@@ -49,6 +49,8 @@ def recognize_faces(known_persons_encodings, known_persons_indices, unknown_pers
             for i in matched_indices:
                 index = known_persons_indices[i]
                 counts[index] = counts.get(index, 0) + 1
+
+            print(counts)
 
             index = max(counts, key=counts.get)
             return index    
